@@ -29,8 +29,9 @@ const fetchProductById = async (id: string): Promise<Product | null> => {
   return product;
 };
 
+// Update params type to be more compatible with dynamic route handling
 interface ProductDetailsProps {
-  params: { id: string };
+  params: { id: string }; // Ensure id is of type string
 }
 
 const ProductDetails = async ({ params }: ProductDetailsProps) => {
@@ -57,9 +58,7 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
               />
             ) : (
               <div className="w-full h-60 bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-500 text-sm">
-                  No Image Available
-                </span>
+                <span className="text-gray-500 text-sm">No Image Available</span>
               </div>
             )}
           </div>
@@ -69,9 +68,7 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
               <h1 className="text-4xl font-bold text-[#722121] mb-4">
                 {product.name}
               </h1>
-              <p className="text-gray-700 mb-6 leading-relaxed">
-                {product.description}
-              </p>
+              <p className="text-gray-700 mb-6 leading-relaxed">{product.description}</p>
               <div className="text-sm space-y-2 mb-6">
                 <p className="text-[#a4cf97] border-2 border-spacing-4 text-center bg-[#97212173] mr-24 p-1 rounded-lg">
                   <span className="font-medium">Stock Level:</span>{" "}
@@ -86,8 +83,7 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
                   </span>
                 </p>
                 <p className="text-[#f3b9b9] mb-2">
-                  <span className="font-medium">Category:</span>{" "}
-                  {product.category}
+                  <span className="font-medium">Category:</span> {product.category}
                 </p>
               </div>
               <p className="text-3xl font-bold text-[#41d433]">
