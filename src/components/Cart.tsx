@@ -1,14 +1,20 @@
 "use client";
-
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/app/context/cartContext";
+
+interface Item {
+  _id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
 
 const Cart: React.FC = () => {
   const { cart, removeFromCart } = useCart();
   const router = useRouter();
 
-  const handleBuyNow = (item: any) => {
+  const handleBuyNow = (item: Item) => {
     const query = new URLSearchParams({
       item: JSON.stringify(item),
     }).toString();
@@ -24,7 +30,7 @@ const Cart: React.FC = () => {
         </h1>
         {cart.length > 0 ? (
           <ul className="divide-y divide-gray-200">
-            {cart.map((item: any) => (
+            {cart.map((item: Item) => (
               <li
                 key={item._id}
                 className="flex justify-between items-center py-4"

@@ -32,7 +32,7 @@ const CategoryProduct = () => {
           _id,
           name
         }`;
-        const categoriesData = await client.fetch(categoryQuery);
+        const categoriesData: Category[] = await client.fetch(categoryQuery);
         setCategories(categoriesData);
 
         const productQuery = `*[_type == "product"]{
@@ -46,7 +46,7 @@ const CategoryProduct = () => {
           stockLevel,
           category
         }`;
-        const productsData = await client.fetch(productQuery);
+        const productsData: Product[] = await client.fetch(productQuery);
         setProducts(productsData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -83,7 +83,7 @@ const CategoryProduct = () => {
         {products.map((product) => (
           <div key={product._id} className="bg-white rounded-lg shadow-md p-4">
             <Image
-              src={"product.imageUrl"}
+              src={product.imageUrl || "/default-image.png"}
               width={300}
               height={200}
               alt={product.name}

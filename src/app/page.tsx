@@ -1,11 +1,11 @@
-// import EcoShop from "@/components/EcoShop";
 import Hero from "@/components/Hero";
+import Products from "@/components/Products";
 
 export default function Home() {
   return (
     <div>
-      {/* <EcoShop/> */}
       <Hero/>
+      <Products/>
     </div>
   );
 }
