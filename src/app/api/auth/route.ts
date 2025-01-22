@@ -11,10 +11,11 @@ export async function POST(request: NextRequest) {
     } else {
       return NextResponse.json({
         message: "Valid User",
-        redirectUrl: "/user",
+        redirectUrl: "/profile",
       });
     }
-  } catch (e: unknown) {
+  } catch (e) {
+    console.log("Error: ", e)
     return NextResponse.json({
       message: "Invalid User",
     });

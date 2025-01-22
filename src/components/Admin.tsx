@@ -24,7 +24,7 @@ export default function AdminPage() {
       <main className="flex-1 bg-gray-100">
         <header className="bg-white shadow p-4 flex items-center justify-between">
           <h1 className="text-xl font-bold">Dashboard</h1>
-          <Link className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" href={"/"}>
+          <Link className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" href={"/login"}>
             Logout
           </Link>
         </header>
