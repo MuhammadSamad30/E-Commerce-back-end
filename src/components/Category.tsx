@@ -1,5 +1,6 @@
 "use client";
 import { client } from "@/sanity/lib/client";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 interface Product {
@@ -81,8 +82,10 @@ const CategoryProduct = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {products.map((product) => (
           <div key={product._id} className="bg-white rounded-lg shadow-md p-4">
-            <img
-              src={product.imageUrl}
+            <Image
+              src={"product.imageUrl"}
+              width={300}
+              height={200}
               alt={product.name}
               className="w-full h-48 object-cover rounded-md mb-4"
             />

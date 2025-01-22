@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -15,24 +16,24 @@ const Footer = () => {
           <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="/product" className="hover:underline">
+              <Link href="/product" className="hover:underline">
                 Shop
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/about" className="hover:underline">
+              <Link href="/about" className="hover:underline">
                 About Us
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/contact" className="hover:underline">
+              <Link href="/contact" className="hover:underline">
                 Contact
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/faq" className="hover:underline">
+              <Link href="/faq" className="hover:underline">
                 FAQ
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -41,24 +42,24 @@ const Footer = () => {
           <h3 className="text-lg font-semibold mb-4">Customer Support</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="/shipping" className="hover:underline">
+              <Link href="/shipping" className="hover:underline">
                 Shipping & Delivery
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/returns" className="hover:underline">
+              <Link href="/returns" className="hover:underline">
                 Returns & Refunds
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/privacy" className="hover:underline">
+              <Link href="/privacy" className="hover:underline">
                 Privacy Policy
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/terms" className="hover:underline">
+              <Link href="/terms" className="hover:underline">
                 Terms & Conditions
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -68,15 +69,15 @@ const Footer = () => {
           <ul className="text-sm space-y-2">
             <li>
               Email:{" "}
-              <a href="mailto:support@ecoshop.com" className="hover:underline">
+              <Link href="mailto:support@ecoshop.com" className="hover:underline">
                 support@ecoshop.com
-              </a>
+              </Link>
             </li>
             <li>
               Phone:{" "}
-              <a href="tel:+1234567890" className="hover:underline">
+              <Link href="tel:+1234567890" className="hover:underline">
                 +1 234 567 890
-              </a>
+              </Link>
             </li>
             <li>Address: 123 Greenway, Eco City</li>
           </ul>
