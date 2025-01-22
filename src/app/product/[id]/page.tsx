@@ -35,7 +35,7 @@ const fetchProductById = async (id:any): Promise<Product | null> => {
 };
 
 const ProductDetails = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+  const id = params.id;
   const product = await fetchProductById(id);
 
   if (!product) {
