@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 interface Product {
   _id: string;
   name: string;
-  imageUrl: string;
+  imageUrl?: string;
   price: number;
   description: string;
   discountPercentage: number;
@@ -18,6 +18,10 @@ interface Product {
 interface Category {
   _id: string;
   name: string;
+}
+
+interface FetchError {
+  message: string;
 }
 
 const CategoryProduct = () => {
@@ -48,8 +52,9 @@ const CategoryProduct = () => {
         }`;
         const productsData: Product[] = await client.fetch(productQuery);
         setProducts(productsData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      } catch (error: unknown) {
+        const err = error as FetchError;
+        console.error("Error fetching data:", err.message);
       }
     };
 
