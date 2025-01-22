@@ -242,4 +242,4 @@ const ProductDetails: React.FC = () => {
   );
 };
 
-export default ProductDetails;
+export default ProductDetails; 
