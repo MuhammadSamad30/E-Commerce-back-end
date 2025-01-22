@@ -14,19 +14,24 @@ interface Product {
 }
 
 const fetchProductById = async (id: string): Promise<Product | null> => {
-  const query = `*[_type == "product" && _id == $id][0]{
-    _id,
-    name,
-    "imageUrl": image.asset->url,
-    price,
-    description,
-    discountPercentage,
-    category,
-    stockLevel
-  }`;
+  try {
+    const query = `*[_type == "product" && _id == $id][0]{
+      _id,
+      name,
+      "imageUrl": image.asset->url,
+      price,
+      description,
+      discountPercentage,
+      category,
+      stockLevel
+    }`;
 
-  const product = await client.fetch(query, { id });
-  return product;
+    const product = await client.fetch(query, { id });
+    return product || null; // Explicitly handle null case
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return null; // Return null on error
+  }
 };
 
 interface ProductDetailsProps {
@@ -34,16 +39,18 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = async ({ params }: ProductDetailsProps) => {
-  const id = params.id;
+  const { id } = params;
   const product = await fetchProductById(id);
+
   if (!product) {
-    notFound();
+    return notFound(); // Early return for better readability
   }
 
   return (
     <div className="min-h-screen py-20 bg-[#e67c7c]">
       <div className="max-w-6xl mx-auto px-8 sm:px-8 lg:px-12">
         <div className="shadow-lg rounded-lg overflow-hidden flex flex-col lg:flex-row bg-[#44788165]">
+          {/* Product Image Section */}
           <div className="lg:w-full flex items-center justify-center border rounded-lg hover:scale-105 transition-transform duration-300 ease-in-out m-10">
             {product.imageUrl ? (
               <Image
@@ -62,6 +69,7 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
             )}
           </div>
 
+          {/* Product Details Section */}
           <div className="lg:w-1/2 p-8 py-10 flex flex-col justify-between">
             <div>
               <h1 className="text-4xl font-bold text-[#722121] mb-4">
@@ -98,6 +106,7 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
               </p>
             </div>
 
+            {/* Add to Cart Button */}
             <div className="mt-8">
               <button
                 className={`w-[70%] py-3 rounded-2xl text-white font-bold text-lg ${
