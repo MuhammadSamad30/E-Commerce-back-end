@@ -20,10 +20,6 @@ interface Category {
   name: string;
 }
 
-interface FetchError {
-  message: string;
-}
-
 const CategoryProduct = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -53,8 +49,11 @@ const CategoryProduct = () => {
         const productsData: Product[] = await client.fetch(productQuery);
         setProducts(productsData);
       } catch (error: unknown) {
-        const err = error as FetchError;
-        console.error("Error fetching data:", err.message);
+        if (error instanceof Error) {
+          console.error("Error fetching data:", error.message);
+        } else {
+          console.error("An unknown error occurred");
+        }
       }
     };
 
