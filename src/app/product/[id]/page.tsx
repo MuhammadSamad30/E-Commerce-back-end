@@ -57,7 +57,9 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
               />
             ) : (
               <div className="w-full h-60 bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-500 text-sm">No Image Available</span>
+                <span className="text-gray-500 text-sm">
+                  No Image Available
+                </span>
               </div>
             )}
           </div>
@@ -75,9 +77,7 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
                   <span className="font-medium">Stock Level:</span>{" "}
                   <span
                     className={`font-semibold ${
-                      product.stockLevel > 0
-                        ? "text-green-600"
-                        : "text-red-600"
+                      product.stockLevel > 0 ? "text-green-600" : "text-red-600"
                     }`}
                   >
                     {product.stockLevel > 0
