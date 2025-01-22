@@ -28,14 +28,14 @@ const CategoryProduct = () => {
   useEffect(() => {
     const fetchCategoriesAndProducts = async () => {
       try {
-        const categoryQuery = *[_type == "category"]{
+        const categoryQuery = `*[_type == "category"]{
           _id,
           name
-        };
+        }`;
         const categoriesData: Category[] = await client.fetch(categoryQuery);
         setCategories(categoriesData);
 
-        const productQuery = *[_type == "product"]{
+        const productQuery = `*[_type == "product"]{
           _id,
           name,
           "imageUrl": image.asset->url,
@@ -45,7 +45,7 @@ const CategoryProduct = () => {
           isFeaturedProduct,
           stockLevel,
           category
-        };
+        }`;
         const productsData: Product[] = await client.fetch(productQuery);
         setProducts(productsData);
       } catch (error: unknown) {
@@ -74,8 +74,8 @@ const CategoryProduct = () => {
         {categories.map((category) => (
           <button
             key={category._id}
-            className={py-2 px-4 rounded-lg border-2 text-sm transition duration-300 
-              ${selectedCategory === category._id ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}}
+            className={`py-2 px-4 rounded-lg border-2 text-sm transition duration-300 
+              ${selectedCategory === category._id ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
             onClick={() => filterProductsByCategory(category._id)}
           >
             {category.name}
