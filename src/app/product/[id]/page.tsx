@@ -1,6 +1,6 @@
+import { notFound } from "next/navigation";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 
 interface Product {
   _id: string;
@@ -25,12 +25,10 @@ const fetchProductById = async (id: string): Promise<Product | null> => {
       category,
       stockLevel
     }`;
-
-    const product = await client.fetch(query, { id });
-    return product || null; // Explicitly handle null case
+    return await client.fetch(query, { id });
   } catch (error) {
     console.error("Error fetching product:", error);
-    return null; // Return null on error
+    return null;
   }
 };
 
@@ -43,14 +41,13 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
   const product = await fetchProductById(id);
 
   if (!product) {
-    return notFound(); // Early return for better readability
+    notFound();
   }
 
   return (
     <div className="min-h-screen py-20 bg-[#e67c7c]">
       <div className="max-w-6xl mx-auto px-8 sm:px-8 lg:px-12">
         <div className="shadow-lg rounded-lg overflow-hidden flex flex-col lg:flex-row bg-[#44788165]">
-          {/* Product Image Section */}
           <div className="lg:w-full flex items-center justify-center border rounded-lg hover:scale-105 transition-transform duration-300 ease-in-out m-10">
             {product.imageUrl ? (
               <Image
@@ -62,22 +59,17 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
               />
             ) : (
               <div className="w-full h-60 bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-500 text-sm">
-                  No Image Available
-                </span>
+                <span className="text-gray-500 text-sm">No Image Available</span>
               </div>
             )}
           </div>
 
-          {/* Product Details Section */}
           <div className="lg:w-1/2 p-8 py-10 flex flex-col justify-between">
             <div>
               <h1 className="text-4xl font-bold text-[#722121] mb-4">
                 {product.name}
               </h1>
-              <p className="text-gray-700 mb-6 leading-relaxed">
-                {product.description}
-              </p>
+              <p className="text-gray-700 mb-6 leading-relaxed">{product.description}</p>
               <div className="text-sm space-y-2 mb-6">
                 <p className="text-[#a4cf97] border-2 border-spacing-4 text-center bg-[#97212173] mr-24 p-1 rounded-lg">
                   <span className="font-medium">Stock Level:</span>{" "}
@@ -92,8 +84,7 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
                   </span>
                 </p>
                 <p className="text-[#f3b9b9] mb-2">
-                  <span className="font-medium">Category:</span>{" "}
-                  {product.category}
+                  <span className="font-medium">Category:</span> {product.category}
                 </p>
               </div>
               <p className="text-3xl font-bold text-[#41d433]">
@@ -106,7 +97,6 @@ const ProductDetails = async ({ params }: ProductDetailsProps) => {
               </p>
             </div>
 
-            {/* Add to Cart Button */}
             <div className="mt-8">
               <button
                 className={`w-[70%] py-3 rounded-2xl text-white font-bold text-lg ${
