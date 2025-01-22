@@ -13,7 +13,7 @@ interface Product {
   stockLevel: number;
 }
 
-const fetchProductById = async (id: string): Promise<Product | null> => {
+const fetchProductById = async (id: string): Promise<any | null> => {
   try {
     const query = `*[_type == "product" && _id == $id][0]{
       _id,
