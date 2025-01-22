@@ -13,21 +13,24 @@ interface Product {
   stockLevel: number;
 }
 
-const fetchProductById = async (id: string): Promise<any | null> => {
+
+const fetchProductById = async (id: string): Promise<Product | null> => {
+  const query = `*[_type == "product" && _id == $id][0]{
+    _id,
+    name,
+    "imageUrl": image.asset->url,
+    price,
+    description,
+    discountPercentage,
+    category,
+    stockLevel
+  }`;
+
   try {
-    const query = `*[_type == "product" && _id == $id][0]{
-      _id,
-      name,
-      "imageUrl": image.asset->url,
-      price,
-      description,
-      discountPercentage,
-      category,
-      stockLevel
-    }`;
-    return await client.fetch(query, { id });
+    const product = await client.fetch(query, { id });
+    return product;
   } catch (error) {
-    console.error("Error fetching product:", error);
+    console.error("Failed to fetch product:", error);
     return null;
   }
 };
