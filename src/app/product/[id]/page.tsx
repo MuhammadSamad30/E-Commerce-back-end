@@ -13,7 +13,6 @@ interface Product {
   stockLevel: number;
 }
 
-
 const fetchProductById = async (id: string): Promise<Product | null> => {
   const query = `*[_type == "product" && _id == $id][0]{
     _id,
@@ -35,11 +34,7 @@ const fetchProductById = async (id: string): Promise<Product | null> => {
   }
 };
 
-interface ProductDetailsProps {
-  params: { id: string };
-}
-
-const ProductDetails = async ({ params }: ProductDetailsProps) => {
+const ProductDetails = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const product = await fetchProductById(id);
 
