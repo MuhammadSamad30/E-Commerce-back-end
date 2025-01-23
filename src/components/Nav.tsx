@@ -49,7 +49,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/products"
+                href="/product"
                 className="text-gray-800 hover:text-blue-500 px-2 py-1"
               >
                 Products
