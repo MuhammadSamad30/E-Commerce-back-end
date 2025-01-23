@@ -133,7 +133,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/product"
+                href="/products"
                 className="text-gray-800 hover:text-blue-500 px-4 py-2"
               >
                 Products
