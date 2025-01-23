@@ -39,6 +39,7 @@ const Auth = () => {
             required
           />
         </div>
+        <p className="text-[14px] pl-3 p-3">⩥ Only Admin Allowed Here!</p>
         <button
           className="w-full bg-blue-500 text-white rounded-lg py-3 hover:bg-blue-600 transition duration-200"
         >
