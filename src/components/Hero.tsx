@@ -8,7 +8,7 @@ export default function Hero() {
         <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-snug">
           Rocket single seater
         </h1>
-        <Link href={"/product"} className="text-lg pl-2 underline font-medium hover:text-gray-700">
+        <Link href={"/products"} className="text-lg pl-2 underline font-medium hover:text-gray-700">
           Shop Now
         </Link>
       </div>

@@ -1,32 +1,25 @@
 "use client";
 import React from "react";
+import { useUserContext } from "@/app/context/UserContext";
 
-interface Address {
-  id: string;
-  title: string;
-  address: string;
-}
+const UserProfile: React.FC = () => {
+  const { userData } = useUserContext();
 
-interface Order {
-  id: string;
-  date: string;
-  total: number;
-  status: string;
-}
+  if (!userData) {
+    return (
+      <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-xl font-semibold text-gray-800">
+            No User Data Found
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Please log in to view your profile and order history.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
-interface UserProps {
-  name: string;
-  email: string;
-  addresses: Address[];
-  orders: Order[];
-}
-
-const UserProfile: React.FC<UserProps> = ({
-  name,
-  email,
-  addresses,
-  orders,
-}) => {
   return (
     <div className="bg-gray-100 min-h-screen py-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
@@ -37,35 +30,21 @@ const UserProfile: React.FC<UserProps> = ({
           </p>
           <div className="mt-4">
             <p className="text-gray-800">
-              <span className="font-semibold">Name:</span> {name}
+              <span className="font-semibold">Name:</span>{" "}
+              {userData.name || "N/A"}
             </p>
             <p className="text-gray-800">
-              <span className="font-semibold">Email:</span> {email}
+              <span className="font-semibold">Email:</span>{" "}
+              {userData.email || "N/A"}
             </p>
           </div>
         </div>
 
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Addresses
-          </h2>
-          <ul>
-            {addresses.map((address) => (
-              <li key={address.id} className="mb-2">
-                <p>
-                  <span className="font-semibold">{address.title}:</span>{" "}
-                  {address.address}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Order History
           </h2>
-          {orders.length > 0 ? (
+          {userData.orders && userData.orders.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full table-auto border-collapse border border-gray-200">
                 <thead>
@@ -77,7 +56,7 @@ const UserProfile: React.FC<UserProps> = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order) => (
+                  {userData.orders.map((order) => (
                     <tr key={order.id} className="hover:bg-gray-50">
                       <td className="p-3 border border-gray-200">{order.id}</td>
                       <td className="p-3 border border-gray-200">
@@ -95,7 +74,17 @@ const UserProfile: React.FC<UserProps> = ({
               </table>
             </div>
           ) : (
-            <p className="text-gray-600">You have no orders yet.</p>
+            <div className="text-gray-600">
+              <p>You have no orders yet.</p>
+              <button
+                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                onClick={() => {
+                  window.location.href = "/products";
+                }}
+              >
+                Start Shopping
+              </button>
+            </div>
           )}
         </div>
       </div>
