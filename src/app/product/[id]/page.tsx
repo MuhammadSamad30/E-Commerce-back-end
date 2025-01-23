@@ -134,7 +134,7 @@ const ProductDetails: React.FC = () => {
             </div>
   
             <div className="mt-8">
-              <button
+              <button onClick={()=> addToCart(product)}
                 className={`w-[70%] py-3 rounded-2xl text-white font-bold text-lg ${
                   product.stockLevel > 0
                     ? "bg-[#357d] hover:bg-[#274664dd]"
@@ -143,6 +143,16 @@ const ProductDetails: React.FC = () => {
                 disabled={product.stockLevel <= 0}
               >
                 {product.stockLevel > 0 ? "Add to Cart" : "Out of Stock"}
+              </button>
+              <br />
+              <br />
+              <button onClick={()=> addToWishlist(product)}
+                className={`w-[70%] py-3 rounded-2xl text-white font-bold text-lg ${
+                  product.stockLevel > 0
+                    ? "bg-[#357d] hover:bg-[#274664dd]"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+              > Add To Wishlist
               </button>
             </div>
           </div>

@@ -3,11 +3,18 @@ import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "@/app/context/UserContext";
 
+interface SelectedItem {
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+
 const Checkout = () => {
   const searchParams = useSearchParams();
   const { addOrder, setUserDetails } = useUserContext();
 
-  const [selectedItem, setSelectedItem] = useState<any | null>(null);
+  const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
