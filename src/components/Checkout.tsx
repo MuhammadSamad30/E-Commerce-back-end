@@ -1,6 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useUserContext } from "@/app/context/UserContext";
 
 interface SelectedItem {
@@ -9,8 +9,7 @@ interface SelectedItem {
   quantity: number;
 }
 
-
-const Checkout = () => {
+const CheckoutContent = () => {
   const searchParams = useSearchParams();
   const { addOrder, setUserDetails } = useUserContext();
 
@@ -126,6 +125,14 @@ const Checkout = () => {
         )}
       </div>
     </div>
+  );
+};
+
+const Checkout = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CheckoutContent />
+    </Suspense>
   );
 };
 
