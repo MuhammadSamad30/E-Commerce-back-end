@@ -1,12 +1,11 @@
 "use client";
 import { client } from "@/sanity/lib/client";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Product {
   _id: string;
   name: string;
-  imageUrl?: string;
+  imageUrl: string;
   price: number;
   description: string;
   discountPercentage: number;
@@ -15,87 +14,97 @@ interface Product {
   category: string;
 }
 
-interface Category {
-  _id: string;
-  name: string;
-}
-
-const CategoryProduct = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+const CategoryProduct: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchCategoriesAndProducts = async () => {
-      try {
-        const categoryQuery = `*[_type == "category"]{
-          _id,
-          name
-        }`;
-        const categoriesData: Category[] = await client.fetch(categoryQuery);
-        setCategories(categoriesData);
+    const fetchProducts = async () => {
+      const query = `*[_type == "product"]{
+        _id,
+        name,
+        "imageUrl": image.asset->url,
+        price,
+        description,
+        discountPercentage,
+        isFeaturedProduct,
+        stockLevel,
+        category
+      }`;
 
-        const productQuery = `*[_type == "product"]{
-          _id,
-          name,
-          "imageUrl": image.asset->url,
-          price,
-          description,
-          discountPercentage,
-          isFeaturedProduct,
-          stockLevel,
-          category
-        }`;
-        const productsData: Product[] = await client.fetch(productQuery);
-        setProducts(productsData);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error("Error fetching data:", error.message);
-        } else {
-          console.error("An unknown error occurred");
-        }
+      try {
+        const data: Product[] = await client.fetch(query);
+        setProducts(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        setLoading(false);
       }
     };
 
-    fetchCategoriesAndProducts();
+    fetchProducts();
   }, []);
 
-  const filterProductsByCategory = (categoryId: string) => {
-    const filteredProducts = products.filter(
-      (product) => product.category === categoryId
-    );
-    setProducts(filteredProducts);
-    setSelectedCategory(categoryId);
-  };
+  if (loading) {
+    return <p className="text-center py-8">Loading products...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center text-red-500 py-8">{error}</p>;
+  }
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <div className="flex flex-wrap gap-4 mb-6">
-        {categories.map((category) => (
-          <button
-            key={category._id}
-            className={`py-2 px-4 rounded-lg border-2 text-sm transition duration-300 
-              ${selectedCategory === category._id ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
-            onClick={() => filterProductsByCategory(category._id)}
-          >
-            {category.name}
-          </button>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold text-center mb-8">Our Products</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <div key={product._id} className="bg-white rounded-lg shadow-md p-4">
-            <Image
-              src={product.imageUrl || "/default-image.png"}
-              width={300}
-              height={200}
+          <div
+            key={product._id}
+            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+          >
+            <img
+              src={product.imageUrl}
               alt={product.name}
-              className="w-full h-48 object-cover rounded-md mb-4"
+              className="w-full h-48 object-cover"
             />
-            <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-            <p className="text-sm text-gray-600 mb-2">{product.description}</p>
-            <p className="text-xl font-bold text-blue-600">${product.price}</p>
+            <div className="p-4">
+              <h2 className="text-lg font-bold">{product.name}</h2>
+              <p className="text-gray-500 text-sm">{product.category}</p>
+              <p className="mt-2 text-gray-800">
+                {product.discountPercentage > 0 ? (
+                  <>
+                    <span className="line-through text-gray-500">
+                      ${product.price.toFixed(2)}
+                    </span>
+                    <span className="ml-2 text-red-600 font-bold">
+                      $
+                      {(
+                        product.price -
+                        (product.price * product.discountPercentage) / 100
+                      ).toFixed(2)}
+                    </span>
+                  </>
+                ) : (
+                  `$${product.price.toFixed(2)}`
+                )}
+              </p>
+              <p className="mt-2 text-sm text-gray-700">
+                {product.description.length > 100
+                  ? `${product.description.slice(0, 100)}...`
+                  : product.description}
+              </p>
+              {product.stockLevel > 0 ? (
+                <p className="mt-2 text-green-500">In Stock</p>
+              ) : (
+                <p className="mt-2 text-red-500">Out of Stock</p>
+              )}
+              {product.isFeaturedProduct && (
+                <p className="mt-2 text-blue-500 font-semibold">
+                  Featured Product
+                </p>
+              )}
+            </div>
           </div>
         ))}
       </div>
