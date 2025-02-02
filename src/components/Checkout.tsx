@@ -1,6 +1,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState, Suspense } from "react";
+import { useRouter } from "next/navigation";
 import { useUserContext } from "@/app/context/UserContext";
 
 interface SelectedItem {
@@ -12,6 +13,7 @@ interface SelectedItem {
 const CheckoutContent = () => {
   const searchParams = useSearchParams();
   const { addOrder, setUserDetails } = useUserContext();
+  const router = useRouter();
 
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
   const [name, setName] = useState("");
@@ -46,7 +48,7 @@ const CheckoutContent = () => {
       status: "Processing",
     });
 
-    alert("Order placed successfully! Check your Profile");
+    router.push("/profile");
   };
 
   return (
