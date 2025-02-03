@@ -1,8 +1,8 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState, Suspense } from "react";
-import { useRouter } from "next/navigation";
 import { useUserContext } from "@/app/context/UserContext";
+import { SignInButton } from "@clerk/nextjs";
 
 interface SelectedItem {
   name: string;
@@ -13,7 +13,6 @@ interface SelectedItem {
 const CheckoutContent = () => {
   const searchParams = useSearchParams();
   const { addOrder, setUserDetails } = useUserContext();
-  const router = useRouter();
 
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
   const [name, setName] = useState("");
@@ -48,7 +47,6 @@ const CheckoutContent = () => {
       status: "Processing",
     });
 
-    router.push("/profile");
   };
 
   return (
@@ -112,12 +110,14 @@ const CheckoutContent = () => {
                   placeholder="Enter your address"
                 />
               </div>
+              <SignInButton forceRedirectUrl='/profile'>
               <button
                 type="submit"
                 className="w-full bg-blue-500 text-white font-medium rounded-lg px-4 py-2 hover:bg-blue-600 transition"
               >
                 Place Order
               </button>
+              </SignInButton>
             </form>
           </div>
         ) : (

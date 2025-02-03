@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { CartProvider } from "./context/cartContext";
 import { WishlistProvider } from "./context/WishlistContext";
 import { UserProvider } from "./context/UserContext";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,18 +29,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider>
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Nav/>
+        <Nav />
         <CartProvider>
           <WishlistProvider>
-            <UserProvider>{children}</UserProvider>
-            </WishlistProvider>
+            <UserProvider>
+              {children}
+            </UserProvider>
+          </WishlistProvider>
         </CartProvider>
-        <Footer/>
+        <Footer />
       </body>
     </html>
+    </ClerkProvider>
   );
 }

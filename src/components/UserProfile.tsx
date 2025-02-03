@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useUserContext } from "@/app/context/UserContext";
+import { UserButton } from "@clerk/nextjs";
 
 const UserProfile: React.FC = () => {
   const { userData } = useUserContext();
@@ -24,6 +25,7 @@ const UserProfile: React.FC = () => {
     <div className="bg-gray-100 min-h-screen py-8">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
         <div className="mb-8">
+            <UserButton/>
           <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
           <p className="text-gray-600 mt-2">
             Manage your account and track your orders.

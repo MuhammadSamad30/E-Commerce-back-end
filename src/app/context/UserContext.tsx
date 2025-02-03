@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface Order {
   id: string;
@@ -25,11 +25,19 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [userData, setUserData] = useState<UserData>({
-    name: "",
-    email: "",
-    orders: [],
+  const [userData, setUserData] = useState<UserData>(() => {
+    if (typeof window !== "undefined") {
+      const storedUserData = localStorage.getItem("userData");
+      return storedUserData
+        ? JSON.parse(storedUserData)
+        : { name: "", email: "", orders: [] };
+    }
+    return { name: "", email: "", orders: [] };
   });
+
+  useEffect(() => {
+    localStorage.setItem("userData", JSON.stringify(userData));
+  }, [userData]);
 
   const setUserDetails = (name: string, email: string) => {
     setUserData((prev) => ({ ...prev, name, email }));
